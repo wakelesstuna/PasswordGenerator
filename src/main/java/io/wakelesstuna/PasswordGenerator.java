@@ -50,7 +50,7 @@ public final class PasswordGenerator {
             this.upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             this.digits = "0123456789";
             this.symbols = "!@#$%&*()_+-=[]|,./?><";
-            this.useLowerCase = false;
+            this.useLowerCase = true;
             this.useUpperCase = false;
             this.useDigits = false;
             this.useSymbols = false;
@@ -115,7 +115,7 @@ public final class PasswordGenerator {
          * Default 4.
          * @return the builder for chaining.
          */
-        public PasswordGeneratorBuilder customPasswordLength(int passwordLength) {
+        public PasswordGeneratorBuilder setMiniumSizeForPassword(int passwordLength) {
             if (passwordLength <= 1) {
                 throw new IllegalArgumentException("The password length must be at least 2 characters long");
             }
@@ -202,25 +202,28 @@ public final class PasswordGenerator {
      * the PasswordGenerator object.
      */
     public String generate(int length) {
-        if (length <= minimumSizeForPassword) {
-            throw new UnsupportedOperationException("Password must be at least ");
+        if (length < minimumSizeForPassword) {
+            String errorMsg = String.format("Password must be at least %s", minimumSizeForPassword);
+            throw new UnsupportedOperationException(errorMsg);
+        }else {
+            List<String> rules = new ArrayList<>(4);
+            if (useLowerCase) {
+                rules.add(LOWERCASE);
+            }
+            if (useUpperCase) {
+                rules.add(UPPERCASE);
+            }
+            if (useDigits) {
+                rules.add(DIGITS);
+            }
+            if (useSymbols) {
+                rules.add(SYMBOLS);
+            }
+
+            return buildPassword(rules, length);
         }
 
-        List<String> rules = new ArrayList<>(4);
-        if (useLowerCase) {
-            rules.add(LOWERCASE);
-        }
-        if (useUpperCase) {
-            rules.add(UPPERCASE);
-        }
-        if (useDigits) {
-            rules.add(DIGITS);
-        }
-        if (useSymbols) {
-            rules.add(SYMBOLS);
-        }
 
-        return buildPassword(rules, length);
     }
 
     /**
@@ -235,7 +238,7 @@ public final class PasswordGenerator {
         Random random = new SecureRandom();
         String charRule;
         int position;
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i < length - 1; i++) {
             charRule = rules.get(random.nextInt(rules.size()));
             position = random.nextInt(charRule.length());
             password.append(charRule.charAt(position));
