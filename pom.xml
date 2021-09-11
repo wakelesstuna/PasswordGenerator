@@ -7,6 +7,32 @@
     <groupId>io.wakelesstuna</groupId>
     <artifactId>PasswordGenerator</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>PasswordGenerator</name>
+    <description>Test deploy my password generator to Central Repository via OSSRH</description>
+    <url>https://github.com/wakelesstuna/PasswordGenerator</url>
+
+    <licenses>
+        <license>
+            <name>MIT</name>
+            <url>https://opensource.org/licenses/MIT</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Oscar Steen Forss</name>
+            <email>wakelesstuna@gmail.com</email>
+            <organization>No organization</organization>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/wakelesstuna/passwordGenerator.git</connection>
+        <developerConnection>scm:git:ssh://github.com:wakelesstuna/passwordGenerator.git</developerConnection>
+        <url>http://github.com/wakelesstuna/passwordGenerator/tree/main</url>
+    </scm>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
